@@ -21,6 +21,10 @@ export const homeMatch = {
 // 404
 export const NotFount = [
   {
+    path: '/403',
+    element: lazyLoad(() => import("@/views/Error/403"))
+  },
+  {
     path: '*',
     element: lazyLoad(() => import("@/views/Error/NotFound"))
   }

@@ -4,8 +4,9 @@ import { CaretLeftOutlined, CaretRightOutlined, CloseCircleFilled } from '@ant-d
 import styles from './index.module.less'
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { menuStore } from '@/store/menuStore';
+import { tagNavStore } from '@/store/tagNavStore';
 import { routeMatchType } from "@/router/types";
+import { useShallow } from 'zustand/react/shallow';
 
 interface PropsTypes {
   pathName: string,
@@ -54,24 +55,32 @@ const LayTagNav = ({ pathName, routeInfos }: PropsTypes) => {
     handleScroll(delta)
   }
   // 跳转时添加tag
-  const { tagNavList, addNavTag, delNavTag, getToRouteName } = menuStore()
+  const { tagNavList, addNavTag, delNavTag, getToRouteName } = tagNavStore(useShallow(
+    state => ({
+      tagNavList: state.tagNavList,
+      addNavTag: state.addNavTag,
+      delNavTag: state.delNavTag,
+      getToRouteName: state.getToRouteName,
+    }))
+  )
 
   useEffect(() => {
     const routeInfo = routeInfos[routeInfos.length - 1] || null
     addNavTag(routeInfo)
   }, [addNavTag, routeInfos])
+
   // 点击tag跳转
   const tagClick = (item: routeMatchType) => {
-    if (item.path == pathName) return
-    navigate(item.path)
+    if (item.pathname == pathName) return
+    navigate(item.pathname!)
   }
   // 关闭tag
   const tagClose = (key: string, item?: routeMatchType) => {
-    const pn = item?.path || pathName
+    const pn = item?.pathname || pathName
     switch (key) {
       case 'single':
         // 跳转到下一个标签页面
-        if (item!.path == pathName) navigate(getToRouteName(pathName))
+        if (item!.pathname == pathName) navigate(getToRouteName(pathName))
         break;
       case 'all':
         navigate('/home')
@@ -109,9 +118,9 @@ const LayTagNav = ({ pathName, routeInfos }: PropsTypes) => {
           {tagNavList.map(item => {
             return (
               <Tag
-                closeIcon={item.path != '/home'}
-                color={item.path == pathName ? "#108ee9" : ''}
-                key={item.path}
+                closeIcon={item.pathname != '/home'}
+                color={item.pathname == pathName ? "#108ee9" : ''}
+                key={item.pathname}
                 onClick={() => tagClick(item)}
                 onClose={() => tagClose('single', item)}>
                 {item.meta.title}

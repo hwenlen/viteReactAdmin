@@ -3,6 +3,7 @@ import { LocalStorage } from '@/libs/storage'
 import { LoginParams, LoginResultModel } from '@/apis/user/type'
 import { LoginIn, LoginOut } from '@/apis/user'
 import { ResponseData } from "@/libs/request/types";
+import { createSelectors } from "./utils/createSelector";
 interface userStoreState {
   userName: string,
   roleName: string,
@@ -16,7 +17,7 @@ interface userStoreState {
 
 const customLocalStorage = LocalStorage(1)
 const { userName, roleName, token, userId } = customLocalStorage.getItem('userInfo') || {}
-export const userStore = create<userStoreState>()(
+export const userStore = createSelectors(create<userStoreState>()(
   (set, get) => {
     return {
       userName: userName || '',
@@ -74,4 +75,4 @@ export const userStore = create<userStoreState>()(
       }
     }
   }
-)
+))

@@ -3,7 +3,7 @@ import { Navigate, useLocation } from 'react-router-dom';
 import { userStore } from "@/store/userStore"
 import { ReactNode } from 'react';
 const AuthRoute = ({ children }: { children: ReactNode }) => {
-  const token = userStore(state => state.token)
+  const token = userStore.use.token()
 
   const { pathname } = useLocation()
 

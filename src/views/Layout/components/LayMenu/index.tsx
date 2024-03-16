@@ -1,20 +1,25 @@
-import React, { useState } from 'react';
-import { menuData } from './menuData';
+import React, { useEffect, useState } from 'react';
 import { Menu, MenuProps } from 'antd';
 // import { ItemType, MenuItemType } from 'antd/es/menu/hooks/useItems';
-import { useNavigate, useMatches } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
+import { routeMatchType } from "@/router/types";
+import { useMenus } from '@/hooks/useMenus';
 
-const rootSubmenuKeys = menuData.map(item => item.key)
 
 interface PropsTypes {
-  pathName: string
+  pathName: string,
+  routeInfos: routeMatchType[]
 }
 
-const LayMenu: React.FC<PropsTypes> = ({ pathName }) => {
-  const matches = useMatches()
-
-  const [openKeys, setOpenKeys] = useState([matches[0].pathname]);
-
+const LayMenu: React.FC<PropsTypes> = ({ pathName, routeInfos }) => {
+  const { menuList } = useMenus()
+  const rootSubmenuKeys = menuList.map(item => item.key)
+  const [openKeys, setOpenKeys] = useState([routeInfos[1].pathname]);
+  // 点击tagnav route变化时展开对应菜单
+  useEffect(() => {
+    setOpenKeys([routeInfos[1].pathname]);
+  }, [routeInfos])
+  // 点击菜单，收起其他展开的所有菜单
   const onOpenChange: MenuProps['onOpenChange'] = (keys) => {
     const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);
     if (latestOpenKey && rootSubmenuKeys.indexOf(latestOpenKey!) === -1) {
@@ -23,7 +28,7 @@ const LayMenu: React.FC<PropsTypes> = ({ pathName }) => {
       setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
     }
   };
-
+  // 点击menu跳转
   const navigate = useNavigate()
   const handleMenu: MenuProps['onClick'] = (e) => {
     navigate(e.key)
@@ -36,7 +41,7 @@ const LayMenu: React.FC<PropsTypes> = ({ pathName }) => {
       selectedKeys={[pathName]}
       openKeys={openKeys}
       onOpenChange={onOpenChange}
-      items={menuData}
+      items={menuList}
       onClick={handleMenu}
     />
   );

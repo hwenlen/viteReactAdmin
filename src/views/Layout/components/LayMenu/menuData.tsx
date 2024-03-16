@@ -51,7 +51,7 @@ export const menuData = [
     }, {
       key: "/order/serve",
       icon: <VideoCameraOutlined />,
-      label: '服务订单'
+      label: '服务订单',
     }]
   }
 ]

@@ -1,4 +1,5 @@
 import { routesAdmin, routesVisitor } from "./data/routes"
+import { menuDataAdmin, menuDataVisitor } from "./data/menus"
 
 const userInfoList = [
   {
@@ -8,7 +9,7 @@ const userInfoList = [
     token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyTmFtZSI6ImFkbWluIiwiZXhwIjoxNzAzOTgwODk1LCJ1c2VySWQiOjU3MzUwNywidGVybWluYWxUeXBlIjoxMDAwOH0'
   }, {
     userName: '13800000002',
-    roleName: '管理员',
+    roleName: '普通管理员',
     userId: 2,
     token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyTmFtZSI6ImFkbWluIiwiZXhwIjoxNzAzOTgwODk1LCJ1c2VySWQiOjU3MzUwNywidGVybWluYH0WxUeXBlIjoxMDAwO'
   }
@@ -74,6 +75,31 @@ export default [
         routes = routesAdmin
       } else if (uid == 2) {
         routes = routesVisitor
+      }
+
+      return {
+        code: 200,
+        message: "获取成功",
+        data: routes
+      };
+    }
+  }, {
+    method: "post",
+    url: "/api/menus",
+    response: (config: any) => {
+      const { uid } = config.query
+      if (!uid) {
+        return {
+          code: 1000,
+          message: "缺少参数uid",
+          data: null
+        };
+      }
+      let routes: any;
+      if (uid == 1) {
+        routes = menuDataAdmin
+      } else if (uid == 2) {
+        routes = menuDataVisitor
       }
 
       return {

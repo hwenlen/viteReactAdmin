@@ -2,17 +2,22 @@ import { Suspense, lazy, LazyExoticComponent, ComponentType } from "react"
 import { Navigate } from "react-router-dom";
 import Login from "@/views/Login"
 import Layout from "@/views/Layout"
+import Spinner from '@/components/Spinner'
 import AuthRoute from '@/components/AuthRoute'
+import { RoutesCustomModel } from "./types";
+
+
 
 export const lazyLoad = (importFun: () => Promise<{ default: ComponentType<any>; }>) => {
   const LazyComponent: LazyExoticComponent<ComponentType<any>> = lazy(importFun)
-  return <Suspense fallback={"loading..."}>
+  return <Suspense fallback={<Spinner />}>
     <LazyComponent />
   </Suspense>
 }
 
 export const homeMatch = {
   path: '/home',
+  pathname: '/home',
   meta: {
     title: '首页',
     affix: true
@@ -22,38 +27,17 @@ export const homeMatch = {
 export const NotFount = [
   {
     path: '/403',
+    meta: {
+      title: '403'
+    },
     element: lazyLoad(() => import("@/views/Error/403"))
   },
   {
     path: '*',
+    meta: {
+      title: '登录'
+    },
     element: lazyLoad(() => import("@/views/Error/NotFound"))
-  }
-]
-// 默认路由
-export const defaultRoutes = [
-  {
-    path: '/login',
-    meta: {
-      title: '登录',
-      unAuth: true,
-    },
-    element: <AuthRoute><Login /></AuthRoute>
-  }, {
-    path: '/',
-    element: <Navigate replace to={"/home"} />
-  }, {
-    path: '/',
-    meta: {
-      title: '首页'
-    },
-    element: <AuthRoute><Layout /></AuthRoute>,
-    // Component: Layout,
-    children: [
-      {
-        ...homeMatch,
-        element: lazyLoad(() => import("@/views/Home"))
-      }
-    ]
   }
 ]
 // 其他路由
@@ -61,12 +45,12 @@ export const otherRoutes = [
   {
     path: '/finance',
     element: <Navigate replace to={"/finance/fundincome"} />
-  }, {
+  },
+  {
     path: '/finance',
     meta: {
       title: '平台财务',
     },
-    element: <AuthRoute><Layout /></AuthRoute>,
     children: [
       {
         path: 'fundincome',
@@ -90,12 +74,11 @@ export const otherRoutes = [
     meta: {
       title: '人员管理',
     },
-    element: <AuthRoute><Layout /></AuthRoute>,
     children: [
       {
         path: 'member',
         meta: {
-          title: '会员列表',
+          title: '会员列表'
         },
         element: lazyLoad(() => import("@/views/Personnel/Member"))
       }
@@ -108,7 +91,6 @@ export const otherRoutes = [
     meta: {
       title: '订单列表',
     },
-    element: <AuthRoute><Layout /></AuthRoute>,
     children: [
       {
         path: 'commodity',
@@ -126,9 +108,34 @@ export const otherRoutes = [
     ]
   }
 ]
-
-export const routes = [
-  ...defaultRoutes,
-  ...otherRoutes,
-  ...NotFount
-]
+// 默认路由
+export const layoutRoutes = (lauoutChildren: RoutesCustomModel[]) => {
+  return [
+    {
+      path: '/login',
+      meta: {
+        title: '登录',
+        unAuth: true,
+      },
+      element: <AuthRoute><Login /></AuthRoute>
+    },
+    {
+      path: '/',
+      element: <Navigate replace to={"/home"} />
+    }, {
+      path: '/',
+      meta: {
+        title: '首页'
+      },
+      element: <AuthRoute><Layout /></AuthRoute>,
+      // Component: Layout,
+      children: [
+        {
+          ...homeMatch,
+          element: lazyLoad(() => import("@/views/Home"))
+        },
+        ...lauoutChildren
+      ]
+    }
+  ]
+}

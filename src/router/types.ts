@@ -1,11 +1,4 @@
-export interface routeMatchType {
-  path: string,
-  meta: {
-    title: string,
-    affix?: boolean,
-    hideInTag?: boolean
-  }
-}
+import type { RouteObject } from "react-router-dom";
 
 export interface RouteMetaModel {
   hideInMenu?: boolean,
@@ -13,7 +6,12 @@ export interface RouteMetaModel {
   title: string | undefined,
   affix?: boolean
   unAuth?: boolean,
-  hadeInTag?: boolean
+  hideInTag?: boolean
+}
+export interface routeMatchType {
+  path: string,
+  pathname: string,
+  meta: RouteMetaModel
 }
 
 export interface RouteResultModel {
@@ -25,3 +23,12 @@ export interface RouteResultModel {
   redirect?: string | undefined,
   children?: RouteResultModel[]
 }
+
+export interface RouteCusModel {
+  path: string,
+  meta?: RouteMetaModel,
+  element: JSX.Element,
+  children?: RouteCusModel[]
+}
+
+export type RoutesCustomModel = RouteObject | RouteCusModel

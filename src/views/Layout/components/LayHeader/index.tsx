@@ -7,9 +7,11 @@ import styles from './index.module.less'
 import { Button, Breadcrumb, Dropdown, Modal } from 'antd';
 import type { MenuProps } from 'antd';
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import type { Dispatch, SetStateAction } from 'react';
 import { userStore } from '@/store/userStore';
 import { routeMatchType } from "@/router/types";
+import { useShallow } from 'zustand/react/shallow';
 
 const { confirm } = Modal;
 
@@ -20,29 +22,37 @@ interface PropsTypes {
 }
 
 interface breadcrumbItemsTypes {
-  title: string,
-  href: string
+  title: string | undefined,
+  path?: string
 }
-
-const homeItem = {
-  title: '首页',
-  href: '/'
-}
-
+// 处理面包屑数据
 const handleRouteList = (routeInfos: routeMatchType[]) => {
   let Itm: breadcrumbItemsTypes[];
+  const lastRoute = routeInfos![routeInfos.length - 1]
 
-  if (routeInfos![0].path !== '/') {
+  if (lastRoute.path !== '/home') {
     Itm = routeInfos.map((item: routeMatchType) => {
       return {
         title: item.meta?.title,
-        href: item.path
+        path: item.path
       }
     })
   } else {
-    Itm = []
+    Itm = [{
+      title: lastRoute.meta.title,
+      path: lastRoute.path
+    }]
   }
   return Itm
+}
+// 和 browserHistory 配合使用path
+function itemRender(currentRoute: any, _params: any, items: any, paths: any) {
+  const isLast = currentRoute?.path === items[items.length - 1]?.path;
+  return isLast ? (
+    <span>{currentRoute.title}</span>
+  ) : (
+    <Link to={`${paths.join("/")}`}>{currentRoute.title}</Link>
+  );
 }
 
 const DropDownitems: MenuProps['items'] = [
@@ -57,14 +67,16 @@ const DropDownitems: MenuProps['items'] = [
 ];
 
 const LayHeader = ({ collapsed, setCollapsed, routeInfos }: PropsTypes) => {
-  const roleName = userStore(state => state.roleName)
-  const handleLoginOut = userStore(state => state.handleLoginOut)
+  // const handleLoginOut = userStore(state => state.handleLoginOut)
+  const [roleName, handleLoginOut] = userStore(useShallow(
+    state => [state.roleName, state.handleLoginOut]
+  ))
 
   const [breadcrumbItems, setBreadcrumbItems] = useState<breadcrumbItemsTypes[]>([])
 
   useEffect(() => {
     document.title = routeInfos[routeInfos.length - 1].meta?.title || 'vite'
-    setBreadcrumbItems([homeItem, ...handleRouteList(routeInfos)])
+    setBreadcrumbItems(handleRouteList(routeInfos))
   }, [routeInfos])
 
   const handleUserAction = (key: string) => {
@@ -103,7 +115,7 @@ const LayHeader = ({ collapsed, setCollapsed, routeInfos }: PropsTypes) => {
           }}
         />
 
-        <Breadcrumb style={{ margin: '16px 0' }} items={breadcrumbItems} />
+        <Breadcrumb style={{ margin: '16px 0' }} itemRender={itemRender} items={breadcrumbItems} />
       </div>
       <div className={styles['header-right']}>
         <p>{roleName}</p>

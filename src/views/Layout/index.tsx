@@ -5,7 +5,7 @@ import { Outlet } from "react-router-dom"
 import LayMenu from './components/LayMenu';
 import LayTagNav from './components/LayTagNav';
 import LayHeader from './components/LayHeader';
-import { useRouteInfo } from './useRouteInfo';
+import { useRouteInfo } from '@/hooks/useRouteInfo';
 
 const { Header, Sider, Content } = Layout;
 
@@ -28,7 +28,7 @@ const LayoutView: React.FC = () => {
             display: collapsed ? 'none' : 'block'
           }}>欢迎登录</p>
         </div>
-        <LayMenu pathName={pathname} />
+        <LayMenu pathName={pathname} routeInfos={routeInfos} />
       </Sider>
       <Layout>
         <Header className={styles['layout-header']} style={{ background: colorBgContainer }}>

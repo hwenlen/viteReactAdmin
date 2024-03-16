@@ -1,0 +1,44 @@
+{
+  "id": "4451566",
+  "name": "viteReactAdmin",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "vite + React + TS项目Demo练习",
+  "glyphs": [
+    {
+      "icon_id": "1185479",
+      "name": "user",
+      "font_class": "user",
+      "unicode": "e639",
+      "unicode_decimal": 58937
+    },
+    {
+      "icon_id": "20584611",
+      "name": "Conference Room_Fill",
+      "font_class": "ConferenceRoom_Fill",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "20584612",
+      "name": "Contacts_Fill",
+      "font_class": "Contacts_Fill",
+      "unicode": "e601",
+      "unicode_decimal": 58881
+    },
+    {
+      "icon_id": "20584667",
+      "name": "Setting",
+      "font_class": "Setting",
+      "unicode": "e602",
+      "unicode_decimal": 58882
+    },
+    {
+      "icon_id": "20584673",
+      "name": "Video",
+      "font_class": "Video",
+      "unicode": "e603",
+      "unicode_decimal": 58883
+    }
+  ]
+}

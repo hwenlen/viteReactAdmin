@@ -27,7 +27,7 @@ const onFinishFailed = (errorInfo: any) => {
 };
 
 const Login = () => {
-  const handleLogin = userStore(state => state.handleLogin)
+  const handleLogin = userStore.use.handleLogin()
   const navigate = useNavigate()
 
   const onFinish = (values: any) => {
@@ -44,7 +44,7 @@ const Login = () => {
       }}>
         <Form
           name="login"
-          // initialValues={{ remember: true }}
+          initialValues={{ username: '13800000001', password: 123456 }}
           size="large"
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}

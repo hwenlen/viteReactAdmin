@@ -11,7 +11,8 @@ export const setRouteInfo = (matchs: any) => {
   if (!matchs || matchs.length == 0) return null
   return matchs.map((item: any) => {
     return {
-      path: item.pathname,
+      path: item.route.path,
+      pathname: item.pathname,
       meta: {
         title: item.route.meta?.title,
         affix: item.route.meta?.affix,
@@ -19,7 +20,6 @@ export const setRouteInfo = (matchs: any) => {
       }
     }
   })
-
 }
 
 /**
@@ -30,17 +30,18 @@ export const setRouteInfo = (matchs: any) => {
 export function formatRouterTree(data: RouteResultModel[]) {
   const parents = data.filter(item => item.pid === 0)
   const children = data.filter(item => item.pid !== 0)
-  const NavigateRoutes: RouteResultModel[] = [];
+  const navigateRoutes: RouteResultModel[] = []
 
   dataToTree(parents, children)
   function dataToTree(parents: RouteResultModel[], children: RouteResultModel[]) {
     parents.map(parent => {
       if (parent.redirect) {
-        NavigateRoutes.push({
+        const redt = {
           path: parent.path,
           element: 'Navigate',
           redirect: parent.redirect
-        })
+        }
+        navigateRoutes.push(redt)
       }
       children.map((child, i) => {
         const _child = JSON.parse(JSON.stringify(children))
@@ -56,8 +57,7 @@ export function formatRouterTree(data: RouteResultModel[]) {
       })
     })
   }
-
-  return [...NavigateRoutes, ...parents]
+  return [...navigateRoutes, ...parents]
 }
 
 /**

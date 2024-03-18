@@ -77,23 +77,32 @@ export const loadView = (view: string) => { // 路由懒加载
 export function generateRouter(userRouters: RouteResultModel[], Layout: JSX.Element) {
   const newRoutes = userRouters.map(item => {
     let el: JSX.Element;
-    switch (item.element) {
-      case 'Layout':
-        el = Layout
-        break;
-      case 'Navigate':
-        el = <Navigate replace to={item.redirect!} />
-        break;
-      default:
-        el = lazyLoad(loadView(item.element) as () => Promise<{ default: ComponentType<any>; }>)
-        break;
+    let route: RouteResultModel;
+    if (item.element) {
+      switch (item.element) {
+        case 'Layout':
+          el = Layout
+          break;
+        case 'Navigate':
+          el = <Navigate replace to={item.redirect!} />
+          break;
+        default:
+          el = lazyLoad(loadView(item.element) as () => Promise<{ default: ComponentType<any>; }>)
+          break;
+      }
+      route = {
+        path: item.path,
+        meta: item.meta,
+        children: item.children,
+        element: el
+      } as unknown as RouteResultModel
+    } else {
+      route = {
+        path: item.path,
+        meta: item.meta,
+        children: item.children
+      } as unknown as RouteResultModel
     }
-    const route = {
-      path: item.path,
-      meta: item.meta,
-      children: item.children,
-      element: el
-    } as unknown as RouteResultModel
 
     if (item.children && item.children.length > 0) {
       route.redirect = item.redirect ? item.redirect : undefined

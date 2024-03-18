@@ -8,7 +8,7 @@ const routesAdmin = [
       title: '平台财务',
       icon: "location"
     },
-    element: "Layout",
+    element: null,
   }, {
     id: 2,
     pid: 1,
@@ -36,7 +36,7 @@ const routesAdmin = [
       title: '人员管理',
       icon: "location"
     },
-    element: "Layout",
+    element: null,
   }, {
     id: 5,
     pid: 4,
@@ -55,7 +55,7 @@ const routesAdmin = [
       title: '订单管理',
       icon: "location"
     },
-    element: "Layout",
+    element: null,
   }, {
     id: 7,
     pid: 6,
@@ -87,7 +87,7 @@ const routesVisitor = [
       title: '平台财务',
       icon: "location"
     },
-    element: "Layout",
+    element: null,
   }, {
     id: 2,
     pid: 1,
@@ -115,7 +115,7 @@ const routesVisitor = [
       title: '订单管理',
       icon: "location"
     },
-    element: "Layout",
+    element: null,
   }, {
     id: 7,
     pid: 6,

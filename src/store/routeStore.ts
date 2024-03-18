@@ -1,12 +1,12 @@
 import { create } from "zustand";
 import { createSelectors } from "./utils/createSelector";
 import type { NavigateFunction, RouteObject } from 'react-router-dom'
-interface HookStoreState {
+interface RouteStoreState {
   navigate: NavigateFunction | null,
   dynamicRoutes: RouteObject[]
 }
 
-const hookStore = createSelectors(create<HookStoreState>()(
+const routeStore = createSelectors(create<RouteStoreState>()(
   () => {
     return {
       navigate: null,
@@ -16,9 +16,9 @@ const hookStore = createSelectors(create<HookStoreState>()(
 ))
 
 export const setNavigate = (useNav: NavigateFunction) => {
-  hookStore.setState({
+  routeStore.setState({
     navigate: useNav
   })
 }
 
-export default hookStore
+export default routeStore

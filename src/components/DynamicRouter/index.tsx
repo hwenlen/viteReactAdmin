@@ -1,7 +1,7 @@
 import { useNavigate, useRoutes } from 'react-router-dom'
 import type { RouteObject } from 'react-router-dom'
 import { userStore } from '@/store/userStore'
-import hookStore, { setNavigate } from '@/store/hookStore'
+import routeStore, { setNavigate } from '@/store/routeStore'
 import { useEffect, useState } from 'react'
 import { layoutRoutes, NotFount } from '@/router/routes'
 import { getRoutes } from '@/apis/user'
@@ -11,7 +11,7 @@ import Spinner from '@/components/Spinner'
 
 function DynamicRouter() {
   const userId = userStore(state => state.userId)
-  const navigate = hookStore(state => state.navigate)
+  const navigate = routeStore(state => state.navigate)
   const [loading, setLoading] = useState(false)
   const [routes, setRoutes] = useState<RouteObject[]>([...layoutRoutes([]), ...NotFount])
   const elements = useRoutes(routes)
@@ -33,7 +33,7 @@ function DynamicRouter() {
         const authRoutes = generateRouter(payload, <Layout />)
         const newRoutes = [...layoutRoutes(authRoutes as RouteObject[]), ...NotFount]
         setRoutes(newRoutes)
-        hookStore.setState({
+        routeStore.setState({
           dynamicRoutes: newRoutes
         })
 

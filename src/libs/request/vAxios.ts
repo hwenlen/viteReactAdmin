@@ -1,5 +1,6 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios'
 import { ResponseData } from './types'
+import router from '@/router';
 
 // 定义返回数据类型，继承AxiosResponse，可扩展
 export default class VAxios {
@@ -30,6 +31,10 @@ export default class VAxios {
     this.axiosInstance.interceptors.response.use(function (response) {
       // 对响应数据做点什么
       const { data } = response
+
+      if (data && data.code && data.code == 401) {
+        router.navigate('/login')
+      }
 
       return data
     }, function (error) {

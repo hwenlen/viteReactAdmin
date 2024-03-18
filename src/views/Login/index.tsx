@@ -5,6 +5,7 @@ import { createFromIconfontCN } from '@ant-design/icons';
 import type { Rule } from 'antd/es/form';
 import { userStore } from '@/store/userStore';
 import { useNavigate } from 'react-router-dom';
+import { tagNavStore } from '@/store/tagNavStore';
 // 使用 iconfont.cn 的多个资源
 const IconFont = createFromIconfontCN({
   scriptUrl: [
@@ -29,6 +30,8 @@ const onFinishFailed = (errorInfo: any) => {
 const Login = () => {
   const handleLogin = userStore.use.handleLogin()
   const navigate = useNavigate()
+  // 到登陆页时候清除tagNav，免得造成混乱
+  tagNavStore.getState().tagNavReset()
 
   const onFinish = (values: any) => {
     handleLogin(values).then(() => {

@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { createSelectors } from "./utils/createSelector";
 import type { NavigateFunction, RouteObject } from 'react-router-dom'
 interface HookStoreState {
-  navigate: null | NavigateFunction,
+  navigate: NavigateFunction | null,
   dynamicRoutes: RouteObject[]
 }
 

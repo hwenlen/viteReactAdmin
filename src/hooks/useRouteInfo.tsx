@@ -6,7 +6,7 @@ import { useMemo } from 'react';
 export const useRouteInfo = () => {
   const { pathname } = useLocation()
   const routeInfos = useMemo(() => {
-    return setRouteInfo(matchRoutes(hookStore.getState().dynamicRoutes, pathname))
+    return setRouteInfo(matchRoutes(hookStore.getState().dynamicRoutes, pathname)) || []
   }, [pathname])
   return {
     routeInfos,

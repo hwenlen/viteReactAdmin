@@ -14,10 +14,10 @@ interface PropsTypes {
 const LayMenu: React.FC<PropsTypes> = ({ pathName, routeInfos }) => {
   const { menuList } = useMenus()
   const rootSubmenuKeys = menuList.map(item => item.key)
-  const [openKeys, setOpenKeys] = useState([routeInfos[1].pathname]);
+  const [openKeys, setOpenKeys] = useState([routeInfos[1]?.pathname] || []);
   // 点击tagnav route变化时展开对应菜单
   useEffect(() => {
-    setOpenKeys([routeInfos[1].pathname]);
+    setOpenKeys([routeInfos[1]?.pathname]);
   }, [routeInfos])
   // 点击菜单，收起其他展开的所有菜单
   const onOpenChange: MenuProps['onOpenChange'] = (keys) => {

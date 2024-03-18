@@ -30,7 +30,7 @@ const handleRouteList = (routeInfos: routeMatchType[]) => {
   let Itm: breadcrumbItemsTypes[];
   const lastRoute = routeInfos![routeInfos.length - 1]
 
-  if (lastRoute.path !== '/home') {
+  if (lastRoute?.path !== '/home') {
     Itm = routeInfos.map((item: routeMatchType) => {
       return {
         title: item.meta?.title,
@@ -75,7 +75,7 @@ const LayHeader = ({ collapsed, setCollapsed, routeInfos }: PropsTypes) => {
   const [breadcrumbItems, setBreadcrumbItems] = useState<breadcrumbItemsTypes[]>([])
 
   useEffect(() => {
-    document.title = routeInfos[routeInfos.length - 1].meta?.title || 'vite'
+    document.title = routeInfos[routeInfos.length - 1]?.meta?.title || 'vite'
     setBreadcrumbItems(handleRouteList(routeInfos))
   }, [routeInfos])
 

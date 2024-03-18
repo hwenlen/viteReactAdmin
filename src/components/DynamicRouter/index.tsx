@@ -15,15 +15,20 @@ function DynamicRouter() {
   const [loading, setLoading] = useState(false)
   const [routes, setRoutes] = useState<RouteObject[]>([...layoutRoutes([]), ...NotFount])
   const elements = useRoutes(routes)
-  const nav = useNavigate()
+  const Navigate = useNavigate()
   if (!navigate) {
-    setNavigate(nav)
+    setNavigate(Navigate)
   }
-
   useEffect(() => {
     async function createRoutes() {
       if (userId) {
         const res = await getRoutes({ uid: userId })
+        if (res.code != 200) {
+          setLoading(true)
+          setRoutes([...layoutRoutes([]), ...NotFount])
+          window.location.href = "/login"
+          return
+        }
         const payload = formatRouterTree(res.data || [])
         const authRoutes = generateRouter(payload, <Layout />)
         const newRoutes = [...layoutRoutes(authRoutes as RouteObject[]), ...NotFount]
@@ -31,11 +36,12 @@ function DynamicRouter() {
         hookStore.setState({
           dynamicRoutes: newRoutes
         })
+
       }
       setLoading(true)
     }
     createRoutes()
-  }, [userId, loading])
+  }, [userId])
 
   if (!loading) {
     return <Spinner fulled></Spinner>

@@ -1,6 +1,6 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios'
 import { ResponseData } from './types'
-import router from '@/router';
+import hookStore from '@/store/hookStore';
 
 // 定义返回数据类型，继承AxiosResponse，可扩展
 export default class VAxios {
@@ -31,9 +31,9 @@ export default class VAxios {
     this.axiosInstance.interceptors.response.use(function (response) {
       // 对响应数据做点什么
       const { data } = response
-
+      const navigate = hookStore.getState().navigate
       if (data && data.code && data.code == 401) {
-        router.navigate('/login')
+        navigate && navigate('/login')
       }
 
       return data

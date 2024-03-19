@@ -20,6 +20,7 @@ export const homeMatch = {
   pathname: '/home',
   meta: {
     title: '首页',
+    Auth: 'all',
     affix: true
   }
 }
@@ -115,7 +116,7 @@ export const layoutRoutes = (lauoutChildren: RoutesCustomModel[]) => {
       path: '/login',
       meta: {
         title: '登录',
-        unAuth: true,
+        Auth: 'all',
       },
       element: <AuthRoute><Login /></AuthRoute>
     },
@@ -125,7 +126,8 @@ export const layoutRoutes = (lauoutChildren: RoutesCustomModel[]) => {
     }, {
       path: '/',
       meta: {
-        title: '首页'
+        title: '首页',
+        Auth: 'all',
       },
       element: <AuthRoute><Layout /></AuthRoute>,
       // Component: Layout,

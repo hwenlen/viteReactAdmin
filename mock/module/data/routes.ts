@@ -3,6 +3,7 @@ const routesAdmin = [
     id: 1,
     pid: 0,
     path: "/finance",
+    fullpath: "/finance",
     redirect: "/finance/fundincome",
     meta: {
       title: '平台财务',
@@ -13,6 +14,7 @@ const routesAdmin = [
     id: 2,
     pid: 1,
     path: "fundincome",
+    fullpath: "/finance/fundincome",
     meta: {
       title: '资金收入表',
       icon: "location"
@@ -22,6 +24,7 @@ const routesAdmin = [
     id: 3,
     pid: 1,
     path: "fundexpend",
+    fullpath: "/finance/fundexpend",
     meta: {
       title: '资金支出表',
       icon: "location"
@@ -31,6 +34,7 @@ const routesAdmin = [
     id: 4,
     pid: 0,
     path: "/personnel",
+    fullpath: "/personnel",
     redirect: "/personnel/member",
     meta: {
       title: '人员管理',
@@ -41,6 +45,7 @@ const routesAdmin = [
     id: 5,
     pid: 4,
     path: "member",
+    fullpath: "/personnel/member",
     meta: {
       title: '会员列表',
       icon: "location"
@@ -50,6 +55,7 @@ const routesAdmin = [
     id: 6,
     pid: 0,
     path: "/order",
+    fullpath: "/order",
     redirect: "/order/commodity",
     meta: {
       title: '订单管理',
@@ -60,6 +66,7 @@ const routesAdmin = [
     id: 7,
     pid: 6,
     path: "commodity",
+    fullpath: "/order/commodity",
     meta: {
       title: '商品订单',
       icon: "location"
@@ -69,6 +76,7 @@ const routesAdmin = [
     id: 8,
     pid: 6,
     path: "serve",
+    fullpath: "/order/serve",
     meta: {
       title: '服务订单',
       icon: "location"
@@ -82,6 +90,7 @@ const routesVisitor = [
     id: 1,
     pid: 0,
     path: "/finance",
+    fullpath: "/finance",
     redirect: "/finance/fundincome",
     meta: {
       title: '平台财务',
@@ -92,6 +101,7 @@ const routesVisitor = [
     id: 2,
     pid: 1,
     path: "fundincome",
+    fullpath: "/finance/fundincome",
     meta: {
       title: '资金收入表',
       icon: "location"
@@ -101,6 +111,7 @@ const routesVisitor = [
     id: 3,
     pid: 1,
     path: "fundexpend",
+    fullpath: "/finance/fundexpend",
     meta: {
       title: '资金支出表',
       icon: "location"
@@ -110,6 +121,7 @@ const routesVisitor = [
     id: 6,
     pid: 0,
     path: "/order",
+    fullpath: "/order",
     redirect: "/order/commodity",
     meta: {
       title: '订单管理',
@@ -120,6 +132,7 @@ const routesVisitor = [
     id: 7,
     pid: 6,
     path: "commodity",
+    fullpath: "/order/commodity",
     meta: {
       title: '商品订单',
       icon: "location"
@@ -129,6 +142,7 @@ const routesVisitor = [
     id: 8,
     pid: 6,
     path: "serve",
+    fullpath: "/order/serve",
     meta: {
       title: '服务订单',
       icon: "location"

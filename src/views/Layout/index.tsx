@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import styles from './index.module.less'
 import { Layout, theme } from 'antd';
-import { Outlet } from "react-router-dom"
 import LayMenu from './components/LayMenu';
 import LayTagNav from './components/LayTagNav';
 import LayHeader from './components/LayHeader';
 import { useRouteInfo } from '@/hooks/useRouteInfo';
+import PermissionRouter from '@/components/PermissionRouter';
 
 const { Header, Sider, Content } = Layout;
 
@@ -45,7 +45,7 @@ const LayoutView: React.FC = () => {
               borderRadius: borderRadiusLG,
             }}
           >
-            <Outlet></Outlet>
+            <PermissionRouter pathName={pathname} />
           </Content>
         </Layout>
       </Layout>

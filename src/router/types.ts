@@ -5,7 +5,7 @@ export interface RouteMetaModel {
   icon?: string | undefined,
   title: string | undefined,
   affix?: boolean
-  unAuth?: boolean,
+  Auth?: string,
   hideInTag?: boolean
 }
 export interface routeMatchType {
@@ -18,6 +18,7 @@ export interface RouteResultModel {
   id?: number,
   pid?: number,
   path: string,
+  fullpath?: string;
   meta?: RouteMetaModel | undefined,
   element: string,
   redirect?: string | undefined,

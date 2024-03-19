@@ -2,12 +2,9 @@
 import { routes } from '@/router';
 import { setRouteInfo } from '@/libs/routeMethod';
 import { useLocation, matchRoutes } from 'react-router-dom';
-import { useMemo } from 'react';
 export const useRouteInfo = () => {
   const { pathname } = useLocation()
-  const routeInfos = useMemo(() => {
-    return setRouteInfo(matchRoutes(routes, pathname))
-  }, [pathname])
+  const routeInfos = setRouteInfo(matchRoutes(routes, pathname))
   return {
     routeInfos,
     pathname

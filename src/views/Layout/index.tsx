@@ -35,7 +35,7 @@ const LayoutView: React.FC = () => {
           <LayHeader collapsed={collapsed} setCollapsed={setCollapsed} routeInfos={routeInfos} />
         </Header>
         <Layout>
-          <LayTagNav pathName={pathname} routeInfos={routeInfos} />
+          <LayTagNav pathName={pathname} routeInfos={routeInfos} colorBg={colorBgContainer} />
           <Content
             style={{
               margin: '0 24px 16px',

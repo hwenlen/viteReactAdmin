@@ -1,16 +1,18 @@
-import { Button, Dropdown, Tag } from 'antd'
+import { Dropdown } from 'antd'
 import type { MenuProps } from 'antd';
-import { CaretLeftOutlined, CaretRightOutlined, CloseCircleFilled } from '@ant-design/icons'
-import styles from './index.module.less'
+import { CaretLeftOutlined, CaretRightOutlined, CloseCircleFilled, SettingFilled } from '@ant-design/icons'
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { tagNavStore } from '@/store/tagNavStore';
 import { routeMatchType } from "@/router/types";
 import { useShallow } from 'zustand/react/shallow';
+import LaySetting from '../LaySetting';
+import { TagNavWrap, TagNavButton, TagNavTag } from './styled'
 
 interface PropsTypes {
   pathName: string,
-  routeInfos: routeMatchType[]
+  routeInfos: routeMatchType[],
+  colorBg: string
 }
 
 const items: MenuProps['items'] = [
@@ -25,7 +27,7 @@ const items: MenuProps['items'] = [
 ];
 
 
-const LayTagNav = ({ pathName, routeInfos }: PropsTypes) => {
+const LayTagNav = ({ pathName, routeInfos, colorBg }: PropsTypes) => {
   const navigate = useNavigate()
   const [tagBodyLeft, setTagBodyLeft] = useState(0)
   const scrollOuter = useRef<HTMLDivElement>(null)
@@ -90,46 +92,55 @@ const LayTagNav = ({ pathName, routeInfos }: PropsTypes) => {
     }
     delNavTag(key, pn)
   }
+  // 打开设置
+  const [openSetting, setOpenSetting] = useState(false);
 
   return (
-    <div className={styles['tag-nav']}>
-      <Button
-        className={styles['btn-left']}
-        type="default"
+    <TagNavWrap>
+      <TagNavButton
+        className='btn-left'
+        data-color={colorBg}
         icon={<CaretLeftOutlined />}
         onClick={() => handleScroll(240)}
       />
-      <Button
-        className={styles['btn-right']}
-        type="default"
+      <TagNavButton
+        className='btn-right'
+        data-color={colorBg}
         icon={<CaretRightOutlined />}
         onClick={() => handleScroll(-240)}
       />
+      <TagNavButton
+        className='btn-setting'
+        data-color={colorBg}
+        icon={<SettingFilled />}
+        onClick={() => setOpenSetting(true)}
+      />
 
       <Dropdown menu={{ items, onClick: ({ key }) => tagClose(key) }} arrow>
-        <Button
-          className={styles['btn-close']}
-          type="default"
+        <TagNavButton
+          className='btn-close'
+          data-color={colorBg}
           icon={<CloseCircleFilled />}
         />
       </Dropdown>
-      <div className={styles['scroll-outer']} ref={scrollOuter} onWheel={(e) => handleWheelScroll(e)}>
-        <div className={styles['scroll-body']} ref={scrollBody} style={{ left: tagBodyLeft + 'px' }}>
+      <div className='scroll-outer' ref={scrollOuter} onWheel={(e) => handleWheelScroll(e)}>
+        <div className='scroll-body' ref={scrollBody} style={{ left: tagBodyLeft + 'px' }}>
           {tagNavList.map(item => {
             return (
-              <Tag
+              <TagNavTag
                 closeIcon={item.pathname != '/home'}
                 color={item.pathname == pathName ? "#108ee9" : ''}
                 key={item.pathname}
                 onClick={() => tagClick(item)}
                 onClose={() => tagClose('single', item)}>
                 {item.meta.title}
-              </Tag>
+              </TagNavTag>
             )
           })}
         </div>
       </div>
-    </div >
+      <LaySetting open={openSetting} setOpen={setOpenSetting} />
+    </TagNavWrap>
   )
 }
 
